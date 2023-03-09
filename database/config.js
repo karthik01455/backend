@@ -23,4 +23,13 @@ module.exports = {
     'dialect': 'postgres',
     'port': 4000,
   },
+  'test': {
+    'username': 'postgres',
+    'password': 'postgres',
+    'database': 'karthikshriramgs',
+    'host': 'localhost',
+    'dialect': 'postgres',
+    'port': 4000,
+  }
+
 };

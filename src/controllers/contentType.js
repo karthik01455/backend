@@ -3,9 +3,11 @@ const contentTypeService = require('../services/contentType');
 async function createContentType(req, res) {
   try {
     const { contentTypeName, Types } = req.body;
+    console.log('body', req.body);
     const contentType = await contentTypeService.createContentType(contentTypeName, Types );
-    res.status(200).send(contentType);
+    res.status(201).send(contentType);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: 'Internal server error' });
 
   }
@@ -60,7 +62,7 @@ async function deleteContentType(req, res, ) {
    
   } catch (error) {
     // console.log(error);
-    res.status(400).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 }
 

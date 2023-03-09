@@ -4,6 +4,7 @@ async function createContentType(contentTypeName, Types) {
     contentTypeName,
     Types
   });
+  
   return contentType;
 }
 async function getAllContentTypes() {
