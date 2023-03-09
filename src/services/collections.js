@@ -29,6 +29,35 @@ async function getCollectionById(id) {
     return null;
   }
 }
+async function updateCollection(id, contentId, content) {
+  try{
+    const collection = await Collections.update({
+      contentId,
+      content
+    }, {
+      where: {
+        id
+      }
+    });
+    return collection;
+  }catch(error){
+    return null;
+  }
+}
+async function deleteCollection(id) {
+  try{
+    const collection = await Collections.destroy({
+      where: {
+        id
+      }
+    });
+    return collection;
+  }
+  catch(error){
+    return null;
+  }
+}
+
 module.exports = {
-  createCollection,getCollectionByContentId,getCollectionById
+  createCollection,getCollectionByContentId,getCollectionById,updateCollection,deleteCollection
 };
