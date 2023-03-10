@@ -1,15 +1,33 @@
 const jwt = require('jsonwebtoken');
+const {makeRequest} = require('../utils/makeRequest');
+const BACKEND_URL = 'http://localhost:8005';
+const apiEndPoint ={url:'/users/validateToken',method:'get'};
 async function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  //   console.log(authHeader);
+//   const jwtToken = localStorage.getItem('jwt');
+//   console.log('jwtToken',jwtToken);
+  //   assign token in header part of request to token variable
+//   console.log('equal', req.headers.authorization === jwtToken);
+  let token = req.headers['authorization'];
+  //   console.log(j);
+  //   console.log('token',token);
+  const TokenArray = token.split(' ');
+  const tokenHeader = TokenArray[1];
+  token = tokenHeader;
 
-  // console.log(token);
-  //split the token from the bearer
-  const token = authHeader && authHeader.split(' ')[1];
+  console.log('token',token);
   if (token == null) return res.sendStatus(401);
   jwt.verify(token, 'SECRET', async(err, tokenHeader) => {
     if (err) return res.sendStatus(403);
-    req.body.emailId = tokenHeader.emailId;
+    // console.log('tokenHeader',tokenHeader);
+    const redisUserName = await makeRequest(BACKEND_URL,apiEndPoint,{
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+        
+    });
+    // console.log('redisEmailId',redisEmailId);
+    if( toString (redisUserName) === toString(tokenHeader.userName) )
+      req.body.emailId = tokenHeader.emailId;
     next();
   });
 }
