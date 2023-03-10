@@ -28,9 +28,20 @@ const updateContentTypeSchema = joi.object({
     .string()
 
 });
+const deleteParamsSchema = joi.object({
+  id: joi
+    .number()
+    .required()
+});
+const getParamsSchema = joi.object({
+  id: joi
+    .number()
+    .required()
+});
 
 module.exports = {
-
+  deleteParamsSchema,
+  getParamsSchema,
   createContentTypeSchema,
   updateContentTypeSchema
   
