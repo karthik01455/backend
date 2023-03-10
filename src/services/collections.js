@@ -1,6 +1,6 @@
 const {Collections}= require('../../database/models');
+const {HTTPError} = require('../utils/errors');
 async function createCollection(contentId, content) {
-//   console.log('service',contentId, content);
   const collection = await Collections.create({
     contentId,
     content
@@ -8,55 +8,61 @@ async function createCollection(contentId, content) {
   return collection;
 }
 async function getCollectionByContentId(contentId) {
-  try{
-    const collection = await Collections.findAll({
-      where: {
-        contentId
-      }
-    });
-    return collection;
+  
+  const collection = await Collections.findAll({
+    where: {
+      contentId
+    }
+  });
+  if(!collection){
+    throw new HTTPError('Collection not found', 404);
   }
-  catch(error){
-    return null;
-  }
+  return collection;
+  
 }
+ 
+
 async function getCollectionById(id) {
-  try{
-    const collection = await Collections.findByPk(id);
-    return collection;
+  
+  const collection = await Collections.findByPk(id);
+  if(!collection){
+    throw new HTTPError('Collection not found', 404);
   }
-  catch(error){
-    return null;
-  }
+  return collection;
+  
+  
 }
+//function to update collection and return the updated collection and if not found return null
 async function updateCollection(id, contentId, content) {
-  try{
-    const collection = await Collections.update({
-      contentId,
-      content
-    }, {
-      where: {
-        id
-      }
-    });
-    return collection;
-  }catch(error){
-    return null;
+  
+  const collection = await Collections.update({
+    contentId,
+    content
+  }, {
+    where: {
+      id
+    }
+  });
+  if(!collection){
+    throw new HTTPError('Collection not found', 404);
   }
+  return collection;
 }
+  
+
 async function deleteCollection(id) {
-  try{
-    const collection = await Collections.destroy({
-      where: {
-        id
-      }
-    });
-    return collection;
+  const collection = await Collections.destroy({
+    where: {
+      id
+    }
+  });
+  if(!collection){
+    throw new HTTPError('Collection not found', 404);
   }
-  catch(error){
-    return null;
-  }
+  return collection;
 }
+  
+
 
 module.exports = {
   createCollection,getCollectionByContentId,getCollectionById,updateCollection,deleteCollection

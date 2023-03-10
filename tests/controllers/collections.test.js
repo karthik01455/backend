@@ -98,6 +98,23 @@ describe('it should create collections when correct inpiuts are passed', () => {
       });
     }
     );
+    it ('should return 404 when no collection is found', async () => {
+      const mockReq = {
+        params: {
+          contentId: 1
+        }
+      };
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn()
+      };
+      jest.spyOn(collectionService, 'getCollectionByContentId').mockResolvedValue(null);
+      return collectionController.getCollectionByContentId(mockReq, mockRes).then(() => {
+        expect(mockRes.status).toHaveBeenCalledWith(404);
+        expect(mockRes.json).toHaveBeenCalledWith({ message: 'Collection not found' });
+      });
+    }
+    );
   });
   describe('getCollectionById', () => {
     it('should return all collections when id is passed', async () => {
@@ -174,11 +191,14 @@ describe('it should create collections when correct inpiuts are passed', () => {
           content: {
             test: 'test'
           }
+        },
+        params: {
+          id: 1
         }
       };
       const mockRes = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn()
+        send: jest.fn()
       };
       jest.spyOn(collectionService, 'updateCollection').mockResolvedValue({
         contentId: 1,
@@ -189,7 +209,7 @@ describe('it should create collections when correct inpiuts are passed', () => {
       });
       return collectionController.updateCollection(mockReq, mockRes).then(() => {
         expect(mockRes.status).toHaveBeenCalledWith(200);
-        expect(mockRes.json).toHaveBeenCalledWith({
+        expect(mockRes.send).toHaveBeenCalledWith({
           contentId: 1,
           content: {
             test: 'test'
@@ -205,7 +225,10 @@ describe('it should create collections when correct inpiuts are passed', () => {
           contentId: 1,
           content: {
             test: 'test'
-          },
+          }
+        },
+        params: {
+          id: 1
         }
       };
       const mockRes = {
@@ -219,29 +242,31 @@ describe('it should create collections when correct inpiuts are passed', () => {
       });
     }
     );
-    it('should return 404 when no collection is found', async () => {
+    it ('should return 404 when no collection is found', async () => {
       const mockReq = {
         body: {
           contentId: 1,
           content: {
             test: 'test'
-          },
+          }
+        },
+        params: {
+          id: 1
         }
       };
       const mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn()
       };
-      jest.spyOn(collectionService, 'updateCollection').mockResolvedValue(null);
+      jest.spyOn(collectionService, 'updateCollection').mockResolvedValue([0]);
       return collectionController.updateCollection(mockReq, mockRes).then(() => {
         expect(mockRes.status).toHaveBeenCalledWith(404);
         expect(mockRes.json).toHaveBeenCalledWith({ message: 'Collection not found' });
       });
     }
     );
-            
-  });
 
+  });
   describe('deleteCollection', () => {
     it('should delete a collection when correct values are passes', async () => {
       const mockReq = {
@@ -264,8 +289,7 @@ describe('it should create collections when correct inpiuts are passed', () => {
         expect(mockRes.status).toHaveBeenCalledWith(200);
         
       });
-    }
-    );
+    });
     it('should return 500 when an error occurs', async () => {
       const mockReq = {
         params: {
@@ -283,7 +307,7 @@ describe('it should create collections when correct inpiuts are passed', () => {
       });
     }
     );
-    it('should return 404 when no collection is found', async () => {
+    it ('should return 404 when no collection is found', async () => {
       const mockReq = {
         params: {
           id: 1
@@ -301,6 +325,7 @@ describe('it should create collections when correct inpiuts are passed', () => {
     }
     );
   });
+  
         
 });
 

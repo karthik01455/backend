@@ -33,21 +33,24 @@ async function getCollectionById(req, res) {
     res.status(500).json({ message: 'Internal server error' });
   }
 }
+// update collection by id and throw error if collection not found
 async function updateCollection(req, res) {
   try {
     const { id } = req.params;
     const { contentId,content } = req.body;
     const collection = await collectionsService.updateCollection(id, contentId, content);
-    if(collection === null ) {
+    if(collection[0] === 0 ) {
       res.status(404).json({ message: 'Collection not found' });
     }
     else
       res.status(200).send(collection);
   } catch (error) {
-    res.status(500).json({ message: 'Internal server error' });
+    if(error.message === 'Collection not found')
+      res.status(404).json({ message: 'Collection not found' });
+    else
+      res.status(500).json({ message: 'Internal server error' });
   }
 }
-
 async function deleteCollection(req, res) {
   try {
     const { id } = req.params;

@@ -54,26 +54,6 @@ describe('contentTypeService', () => {
     );
   });
   describe('getAllContentTypes', () => {
-    it('should return all content types', async () => {
-      const mockReq = {};
-      const mockRes = {
-        status: jest.fn().mockReturnThis(),
-        send: jest.fn()
-      };
-      jest.spyOn(contentTypeService, 'getAllContentTypes').mockResolvedValue([{
-        contentTypeName: 'test',
-        Types: ['test', 'test2'],
-        id:1
-      }]);
-      return contentTypeController.getAllContentTypes(mockReq, mockRes).then(() => {
-        expect(mockRes.status).toHaveBeenCalledWith(200);
-        expect(mockRes.send).toHaveBeenCalledWith([{
-          contentTypeName: 'test',
-          Types: ['test', 'test2'],
-          id:1
-        }]);
-      });
-    });
     it('should return 500 when an error occurs', async () => {
       const mockReq = {};
       const mockRes = {

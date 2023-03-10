@@ -29,7 +29,6 @@ async function getContentById(id) {
   }
   
 }
-   
 async function updateContentType(id, contentTypeName, Types) {
   try{
     const content = await ContentType.update({

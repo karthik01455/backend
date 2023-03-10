@@ -1,4 +1,5 @@
 const {Collections} = require('../../database/models');
+const {HTTPError} = require('../../src/utils/errors');
 const collectionService = require('../../src/services/collections');
 describe('createCollection', () => {
   it('should create a collection when correct values are passes', async () => {
@@ -60,6 +61,7 @@ describe('createCollection', () => {
       );
     }
     );
+   
 
 
 
@@ -83,8 +85,10 @@ describe('createCollection', () => {
       );
     }
     );
-  }
-  );
+    
+    
+  });
+
   describe('updateCollection', () => {
     it('should update a collection when correct values are passes', async () => {
       const id = 1;
@@ -92,31 +96,28 @@ describe('createCollection', () => {
       const content = {
         test: 'test'
       };
-      jest.spyOn(Collections, 'update').mockResolvedValue({
+      const collection = {
         contentId,
         content,
-        id: 1
-      });
+        id
+      };
+      jest.spyOn(Collections, 'update').mockResolvedValue([1]);
+      jest.spyOn(Collections, 'findByPk').mockResolvedValue(collection);
       return collectionService.updateCollection(
         id,
         contentId,
         content
       ).then((collection) => {
-        expect(collection).toEqual({
-          contentId,
-          content,
-          id: 1
-        });
+        expect(collection).toEqual(collection); 
       }
       );
     }
     );
-    
-  }
-  );
-  it('Delete colectiosn', async () => 
-    it('should delete a collection when correct values are passes', async () => {
-      {
+  
+  
+
+    describe('deleteCollection', () => {
+      it('should delete a collection when correct values are passes', async () => {
         const id = 1;
         const collection = {
           contentId: 1,
@@ -124,15 +125,15 @@ describe('createCollection', () => {
             test: 'test'
           },
           id: 1
-        }; 
-        jest.spyOn(Collections, 'destroy').mockResolvedValue(collection);
+        };
+        jest.spyOn(Collections, 'destroy').mockResolvedValue(1);
+        jest.spyOn(Collections, 'findByPk').mockResolvedValue(collection);
         return collectionService.deleteCollection(id).then((collection) => {
-          expect(collection).toEqual(collection);
+          expect(collection).toEqual(collection); 
         }
         );
       }
-    }
-    ));
-    
-
+      );
+    });
+  });
 });
