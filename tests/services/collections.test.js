@@ -1,6 +1,6 @@
 const {Collections} = require('../../database/models');
-const {HTTPError} = require('../../src/utils/errors');
 const collectionService = require('../../src/services/collections');
+
 describe('createCollection', () => {
   it('should create a collection when correct values are passes', async () => {
     const contentId = 1;
@@ -85,6 +85,12 @@ describe('createCollection', () => {
       );
     }
     );
+    it('should throw error when no collection is found', async () => {
+      const id = 1;
+      jest.spyOn(Collections, 'findByPk').mockResolvedValue(null);
+      expect(collectionService.getCollectionById(id)).rejects.toThrow();
+    }
+    );
     
     
   });
@@ -113,6 +119,20 @@ describe('createCollection', () => {
       );
     }
     );
+    it('should throw error when no collection is found', async () => {
+      const id = 1;
+      const contentId = 1;
+      const content = {
+        test: 'test'
+      };
+      jest.spyOn(Collections, 'update').mockResolvedValue(null);
+      expect(collectionService.updateCollection(
+        id,
+        contentId,
+        content
+      )).rejects.toThrow();
+    }
+    );
   
   
 
@@ -135,5 +155,14 @@ describe('createCollection', () => {
       }
       );
     });
-  });
+    it('should throw error when no collection is found', async () => {
+      const id = 1;
+    
+      jest.spyOn(Collections, 'destroy').mockResolvedValue(null);
+      expect(collectionService.deleteCollection(id)).rejects.toThrow();
+    }
+  
+    );
+  }
+  );
 });

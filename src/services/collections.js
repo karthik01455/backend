@@ -1,5 +1,5 @@
 const {Collections}= require('../../database/models');
-const {HTTPError} = require('../utils/errors');
+const HTTPError = require('../utils/errors');
 async function createCollection(contentId, content) {
   const collection = await Collections.create({
     contentId,
@@ -15,13 +15,11 @@ async function getCollectionByContentId(contentId) {
     }
   });
   if(!collection){
-    throw new HTTPError('Collection not found', 404);
+    throw new Error('Collection not found', 404);
   }
   return collection;
   
 }
- 
-
 async function getCollectionById(id) {
   
   const collection = await Collections.findByPk(id);
@@ -48,8 +46,6 @@ async function updateCollection(id, contentId, content) {
   }
   return collection;
 }
-  
-
 async function deleteCollection(id) {
   const collection = await Collections.destroy({
     where: {
