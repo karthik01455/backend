@@ -1,4 +1,6 @@
 const {ContentType} = require('../../database/models');
+const {HTTPErrors} = require('../utils/errors');
+
 async function createContentType(contentTypeName, Types, emailId) {
   const contentType = await ContentType.create({
     contentTypeName,
@@ -20,44 +22,46 @@ async function getAllContentTypes(emailId) {
   return contentTypes;
 }
 async function getContentById(id) {
-  try{
-    const content = await ContentType.findByPk(id);
-    return content;
+  
+  const content = await ContentType.findByPk(id);
+  if(!content){
+    throw new HTTPErrors('Content not found', 404);
   }
-  catch(error){
-    return null;
-  }
+  return content;
+  
+
+  
   
 }
 async function updateContentType(id, contentTypeName, Types) {
-  try{
-    const content = await ContentType.update({
-      contentTypeName,
-      Types
-    }, {
-      where: {
-        id
-      }
-    });
-    return content;
-  }catch(error){
-    return null;
+  
+  const content = await ContentType.update({
+    contentTypeName,
+    Types
+  }, {
+    where: {
+      id
+    }
+  });
+  if(!content){
+    throw new HTTPErrors('Content not found', 404);
   }
+  return content;
+  
   
 }
 async function deleteContentType(id) {
-  try{
-    const content = await ContentType.destroy({
-      where: {
-        id
-      }
-    });
-    return content;
-  }
-  catch(error){
-    return null;
-  }
   
+  const content = await ContentType.destroy({
+    where: {
+      id
+    }
+  });
+  if(!content){
+    throw new HTTPErrors('Content not found', 404);
+  }
+  return content;
+ 
 }
 
 module.exports = {

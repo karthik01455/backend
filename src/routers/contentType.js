@@ -1,10 +1,12 @@
 const express = require('express');
 const contentTypeController = require('../controllers/contentType');
 const contentTypeRouter =express.Router();
+const {generateValidationMiddleware} = require('../middleware/validation');
+const  Schema = require('../../src/schemas/contentType');
 const {authenticateToken} = require('../middleware/authenticate');
 contentTypeRouter.post('/', authenticateToken,contentTypeController.createContentType);
 contentTypeRouter.get('/all',authenticateToken, contentTypeController.getAllContentTypes);
-contentTypeRouter.get('/:id', contentTypeController.getContentById);
-contentTypeRouter.put('/:id', contentTypeController.updateContentType);
-contentTypeRouter.delete('/:id', contentTypeController.deleteContentType);
+contentTypeRouter.get('/:id',authenticateToken, contentTypeController.getContentById);
+contentTypeRouter.put('/:id', authenticateToken,contentTypeController.updateContentType);
+contentTypeRouter.delete('/:id',authenticateToken, contentTypeController.deleteContentType);
 module.exports=contentTypeRouter;
