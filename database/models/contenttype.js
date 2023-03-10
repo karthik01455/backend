@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   }
   ContentType.init({
     contentTypeName: {type:DataTypes.STRING, unique: true, allowNull: false},
-    Types: DataTypes.ARRAY(DataTypes.STRING)
+    Types: DataTypes.ARRAY(DataTypes.STRING),
+    emailId:{type:DataTypes.STRING, allowNull: false}
   }, {
     sequelize,
     modelName: 'ContentType',

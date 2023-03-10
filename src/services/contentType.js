@@ -1,14 +1,22 @@
 const {ContentType} = require('../../database/models');
-async function createContentType(contentTypeName, Types) {
+async function createContentType(contentTypeName, Types, emailId) {
   const contentType = await ContentType.create({
     contentTypeName,
-    Types
+    Types,
+    emailId
   });
   
   return contentType;
 }
-async function getAllContentTypes() {
-  const contentTypes = await ContentType.findAll();
+async function getAllContentTypes(emailId) {
+  const contentTypes = await ContentType.findAll(
+    {
+      where: {
+        emailId
+      }
+    }
+
+  );
   return contentTypes;
 }
 async function getContentById(id) {

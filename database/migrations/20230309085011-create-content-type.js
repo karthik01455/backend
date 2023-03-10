@@ -17,6 +17,11 @@ module.exports = {
       Types: {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
+      emailId:
+      {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

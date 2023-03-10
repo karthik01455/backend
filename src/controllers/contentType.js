@@ -2,9 +2,9 @@ const contentTypeService = require('../services/contentType');
 
 async function createContentType(req, res) {
   try {
-    const { contentTypeName, Types } = req.body;
+    const { contentTypeName, Types,emailId } = req.body;
     console.log('body', req.body);
-    const contentType = await contentTypeService.createContentType(contentTypeName, Types );
+    const contentType = await contentTypeService.createContentType(contentTypeName, Types ,emailId);
     res.status(201).send(contentType);
   } catch (error) {
     console.log(error);
@@ -14,7 +14,8 @@ async function createContentType(req, res) {
 }
 async function getAllContentTypes(req, res) {
   try {
-    const contentTypes = await contentTypeService.getAllContentTypes();
+    const { emailId } = req.body;
+    const contentTypes = await contentTypeService.getAllContentTypes(emailId);
     res.status(200).send(contentTypes);
   } catch (error) {
     res.status(500).json({ message: 'Internal server error' });
